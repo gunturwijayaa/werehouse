@@ -16,9 +16,12 @@ class MyHome extends StatelessWidget {
       body: Center(
         child: ElevatedButton(
           onPressed: () {
-            Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => const QRViewExample(),
-            ));
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => QRViewExample(),
+              ),
+              );
           },
           child: const Text('qrView'),
         ),

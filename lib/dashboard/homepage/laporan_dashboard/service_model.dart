@@ -1,10 +1,9 @@
 class Service {
-  static String vaccine = "Vaccine";
-  static String surgery = "Surgery";
-  static String spaAndTreatment = "SPA & Treatment";
-  static String consultation = "Consultation";
+  static String vaccine = "Bencana";
+  static String surgery = "Penerimaan Logistik";
+  static String spaAndTreatment = "Pengeluaran Logistik";
 
   static List<String> all() {
-    return [vaccine, surgery, spaAndTreatment, consultation];
+    return [vaccine, surgery, spaAndTreatment];
   }
 }

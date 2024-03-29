@@ -33,10 +33,6 @@ class fitur_laporan extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            _search(),
-            const SizedBox(
-              height: 20,
-            ),
             _services(),
             const SizedBox(
               height: 27,
@@ -103,7 +99,7 @@ class fitur_laporan extends StatelessWidget {
               ),
               RichText(
                   text: TextSpan(
-                      text: "Service: ${doctorModel.services.join(', ')}",
+                      text: "Terkait: ${doctorModel.services.join(', ')}",
                       style: GoogleFonts.manrope(
                           fontSize: 12, color: Colors.black))),
               const SizedBox(
@@ -133,12 +129,6 @@ class fitur_laporan extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                         fontSize: 12),
                   ),
-                  const Spacer(),
-                  SvgPicture.asset('assets/svgs/cat.svg'),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  SvgPicture.asset('assets/svgs/dog.svg'),
                 ],
               ),
             ],
@@ -184,25 +174,7 @@ class fitur_laporan extends StatelessWidget {
     );
   }
 
-  Widget _search() {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20),
-      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
-      decoration: BoxDecoration(
-          color: const Color(0xFFF6F6F6),
-          borderRadius: BorderRadius.circular(14)),
-      child: TextFormField(
-        decoration: InputDecoration(
-            border: InputBorder.none,
-            hintText: "Find best vaccinate, treatment...",
-            hintStyle: GoogleFonts.manrope(
-                fontSize: 12,
-                fontWeight: FontWeight.bold,
-                color: const Color(0xFFCACACA),
-                height: 150 / 100)),
-      ),
-    );
-  }
+ 
 
   AspectRatio _card() {
     return AspectRatio(
@@ -216,7 +188,7 @@ class fitur_laporan extends StatelessWidget {
         ),
         child: Stack(children: [
           Image.asset(
-            'assets/images/background_card.png',
+            'assets/images/gambar_fitur_laporan.png',
             height: double.maxFinite,
             width: double.maxFinite,
             fit: BoxFit.cover,
@@ -229,20 +201,20 @@ class fitur_laporan extends StatelessWidget {
               children: [
                 RichText(
                     text: TextSpan(
-                        text: "Your ",
+                        text: "Hi, ",
                         style: GoogleFonts.manrope(
                             fontSize: 14,
-                            color: const Color(0xFFDEE1FE),
+                            color: Color.fromARGB(255, 255, 255, 255),
                             height: 150 / 100),
                         children: const [
                       TextSpan(
-                          text: "Catrine ",
+                          text: "Apakah ",
                           style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.w800)),
                       TextSpan(
                           text:
-                              "Your Catrine will get\nvaccination tomorrow \nat 07.00 am!",
+                              "Anda Ingin Untuk\n Melihat Fitur Laporan \n Lainnya.. ?",
                           style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.w800)),
@@ -258,7 +230,7 @@ class fitur_laporan extends StatelessWidget {
                           color: Colors.white.withOpacity(.12), width: 2),
                       borderRadius: BorderRadius.circular(10)),
                   child: Text(
-                    "See details",
+                    "Selanjutnya >",
                     style: GoogleFonts.manrope(
                         fontSize: 12,
                         fontWeight: FontWeight.bold,
@@ -280,7 +252,7 @@ class fitur_laporan extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            'Hello, Human!',
+            'Laporan',
             style: GoogleFonts.manrope(
                 fontSize: 24,
                 fontWeight: FontWeight.w800,

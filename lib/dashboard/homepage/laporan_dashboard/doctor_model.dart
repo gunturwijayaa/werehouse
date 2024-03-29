@@ -16,19 +16,19 @@ class DoctorModel {
 
 var doctors = [
   DoctorModel(
-    name: "Dr. Stone",
+    name: "Barang",
+    image: "Dr. Stone.jpg", // Memperbarui path gambar disini
+    services: [Service.vaccine],
+    distance: 10,
+  ),
+  DoctorModel(
+    name: "Penerimaan Logistik",
     image: "Dr. Stone.jpg", // Memperbarui path gambar disini
     services: [Service.vaccine, Service.surgery],
     distance: 10,
   ),
   DoctorModel(
-    name: "Dr. Stone",
-    image: "Dr. Stone.jpg", // Memperbarui path gambar disini
-    services: [Service.vaccine, Service.surgery],
-    distance: 10,
-  ),
-  DoctorModel(
-    name: "Dr. Stone",
+    name: "Pengeluaran Logistik",
     image: "Dr. Stone.jpg", // Memperbarui path gambar disini
     services: [Service.vaccine, Service.surgery],
     distance: 10,

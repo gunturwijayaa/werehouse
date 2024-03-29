@@ -1,4 +1,4 @@
-import 'package:WEREHOUSE/dashboard/homepage/laporan_dashboard/fitur_laporan.dart';
+//import 'package:WEREHOUSE/dashboard/homepage/laporan_dashboard/fitur_laporan.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:WEREHOUSE/introduction_animation/components/SplashScreen.dart';
@@ -34,7 +34,7 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: fitur_laporan(),//SplashScreen
+      home: SplashScreen(),//fitur_laporan
     );
   }
 }

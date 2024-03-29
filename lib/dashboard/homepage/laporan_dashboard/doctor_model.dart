@@ -4,7 +4,7 @@ class DoctorModel {
   String name;
   String image;
   List<String> services;
-  int distance;
+  String distance;
 
   DoctorModel({
     required this.name,
@@ -15,22 +15,22 @@ class DoctorModel {
 }
 
 var doctors = [
-  DoctorModel(
+  DoctorModel (
     name: "Barang",
-    image: "Dr. Stone.jpg", // Memperbarui path gambar disini
-    services: [Service.vaccine],
-    distance: 10,
+    image: "gambar_laporan.png", // Memperbarui path gambar disini
+    services: ["Laporan Barang"],
+    distance: "",
   ),
   DoctorModel(
     name: "Penerimaan Logistik",
-    image: "Dr. Stone.jpg", // Memperbarui path gambar disini
-    services: [Service.vaccine, Service.surgery],
-    distance: 10,
+    image: "gambar_laporan.png", // Memperbarui path gambar disini
+    services: ["Laporan Penerimaan Logistik"],
+    distance: "",
   ),
   DoctorModel(
     name: "Pengeluaran Logistik",
-    image: "Dr. Stone.jpg", // Memperbarui path gambar disini
-    services: [Service.vaccine, Service.surgery],
-    distance: 10,
+    image: "gambar_laporan.png", // Memperbarui path gambar disini
+    services: ["Laporan Pengeluaran Logistik"],
+    distance: "",
   ),
 ];

@@ -110,7 +110,7 @@ class fitur_laporan extends StatelessWidget {
                   const SizedBox(
                     width: 7,
                   ),
-                  Text("${doctorModel.distance}km",
+                  Text("${doctorModel.distance}Lihat Lebih Detail",
                       style: GoogleFonts.manrope(
                         fontSize: 12,
                         color: const Color(0xFFACA3A3),
@@ -123,7 +123,7 @@ class fitur_laporan extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    "Available for",
+                    "Selanjutnya >",
                     style: GoogleFonts.manrope(
                         color: const Color(0xFF50CC98),
                         fontWeight: FontWeight.bold,
@@ -214,7 +214,7 @@ class fitur_laporan extends StatelessWidget {
                               fontWeight: FontWeight.w800)),
                       TextSpan(
                           text:
-                              "Anda Ingin Untuk\n Melihat Fitur Laporan \n Lainnya.. ?",
+                              "Anda Tertarik Untuk\n Melihat Fitur Laporan \n Lainnya.. ?",
                           style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.w800)),

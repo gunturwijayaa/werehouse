@@ -1,9 +1,11 @@
-
 import 'package:flutter/material.dart';
 import 'package:WEREHOUSE/dashboard/lainnya/AppText.dart';
 import 'package:WEREHOUSE/dashboard/lainnya/AppColors.dart';
 import 'package:WEREHOUSE/dashboard/lainnya/AppLargeText.dart';
 import 'package:WEREHOUSE/dashboard/homepage/laporan_dashboard/fitur_laporan.dart';
+
+//import 'package:barcode_scan/barcode_scan.dart';
+
 import 'dart:async'; // Add this import statement
 
 // Your remaining code here...
@@ -255,7 +257,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         );
                       });
                     } else if (imageName == 'icon_bantuan.png') {
-                      // Jika ingin menambahkan aksi untuk icon_bantuan.png, tambahkan di sini
+                      showLoading(context);
+                      
                     }
                   },
                   child: Container(

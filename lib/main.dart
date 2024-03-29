@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:WEREHOUSE/introduction_animation/components/SplashScreen.dart';
-
+//import 'package:WEREHOUSE/dashboard/homepage/fitur_scan.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations(<DeviceOrientation>[
@@ -34,7 +34,7 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: SplashScreen(),//fitur_laporan
+      home: SplashScreen(),//fitur_laporan //MyHome
     );
   }
 }

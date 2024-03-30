@@ -39,48 +39,20 @@ class Barang extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      TextField(
-                        decoration: InputDecoration(
-                          hintText: 'Bantuan Dari',
-                          fillColor: Colors.white,
-                          filled: true,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                        ),
+                      _buildTextField(
+                        hintText: 'Dari :',
                       ),
                       const SizedBox(height: 10),
-                      TextField(
-                        decoration: InputDecoration(
-                          hintText: 'Jenis',
-                          fillColor: Colors.white,
-                          filled: true,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                        ),
+                      _buildTextField(
+                        hintText: 'Jenis :',
                       ),
                       const SizedBox(height: 10),
-                      TextField(
-                        decoration: InputDecoration(
-                          hintText: 'Jumlah',
-                          fillColor: Colors.white,
-                          filled: true,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                        ),
+                      _buildTextField(
+                        hintText: 'Jumlah :',
                       ),
                       const SizedBox(height: 10),
-                      TextField(
-                        decoration: InputDecoration(
-                          hintText: 'Satuan',
-                          fillColor: Colors.white,
-                          filled: true,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                        ),
+                      _buildTextField(
+                        hintText: 'Satuan :',
                       ),
                       const SizedBox(height: 10),
                       InkWell(
@@ -88,14 +60,25 @@ class Barang extends StatelessWidget {
                           _selectDate(context);
                         },
                         child: IgnorePointer(
-                          child: TextFormField(
-                            controller: _expiredController, // Assign controller
-                            decoration: InputDecoration(
-                              hintText: 'Expired',
-                              fillColor: Colors.white,
-                              filled: true,
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10.0),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 1,
+                                  blurRadius: 7,
+                                  offset: Offset(0, 3),
+                                ),
+                              ],
+                            ),
+                            child: TextFormField(
+                              controller: _expiredController, // Assign controller
+                              decoration: InputDecoration(
+                                hintText: 'Kadaluarsa :',
+                                border: InputBorder.none,
+                                contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
                               ),
                             ),
                           ),
@@ -107,6 +90,30 @@ class Barang extends StatelessWidget {
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTextField({required String hintText}) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10.0),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 1,
+            blurRadius: 7,
+            offset: Offset(0, 3),
+          ),
+        ],
+      ),
+      child: TextField(
+        decoration: InputDecoration(
+          hintText: hintText,
+          border: InputBorder.none,
+          contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
         ),
       ),
     );
@@ -125,7 +132,7 @@ class Barang extends StatelessWidget {
         child: Stack(
           children: [
             Image.asset(
-              'assets/images/gambar_fitur_laporan.png',
+              'assets/images/fitur_barang.png',
               height: double.maxFinite,
               width: double.maxFinite,
               fit: BoxFit.cover,
@@ -146,7 +153,7 @@ class Barang extends StatelessWidget {
                       ),
                       children: const [
                         TextSpan(
-                          text: "Silahkan ",
+                          text: "Silahkan Anda ",
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.w800,
@@ -154,7 +161,7 @@ class Barang extends StatelessWidget {
                         ),
                         TextSpan(
                           text:
-                              "Melengkapi  \n Isi Field yang ada \n Di Bawah Ini...",
+                              "\n Melengkapi Isi Field \n Yang Ada Di \n Bawah Ini...",
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.w800,

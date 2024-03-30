@@ -37,6 +37,7 @@ dependencies:
     flutter_svg: ^2.0.6
     google_fonts: ^5.0.0
     qr_code_scanner: ^1.0.1
+    flutter_datetime_picker: ^1.5.1
     
 
 dev_dependencies:
@@ -62,7 +63,6 @@ flutter:
         - assets/hotel/
         - assets/introduction_animation/
         - assets/dashboard/
-        - assets/dashboard/fitur_laporan/
 
     # An image asset can refer to one or more resolution-specific "variants", see
     # https://flutter.dev/assets-and-images/#resolution-aware.

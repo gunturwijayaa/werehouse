@@ -1,4 +1,4 @@
-import 'package:WEREHOUSE/dashboard/homepage/dashboard_isi.dart/laporan.dart';
+import 'package:WEREHOUSE/dashboard/homepage/dashboard_isi/barang.dart';
 
 import 'package:WEREHOUSE/dashboard/homepage/home_page.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +13,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   List pages = [
     HomePage(),
-    laporan(),
+    Barang(),
     
   ];
 

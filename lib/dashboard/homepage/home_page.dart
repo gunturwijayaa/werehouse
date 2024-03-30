@@ -4,6 +4,7 @@ import 'package:WEREHOUSE/dashboard/lainnya/AppColors.dart';
 import 'package:WEREHOUSE/dashboard/lainnya/AppLargeText.dart';
 import 'package:WEREHOUSE/dashboard/homepage/laporan_dashboard/fitur_laporan.dart';
 import 'package:WEREHOUSE/dashboard/homepage/fitur_scan.dart';
+import 'package:WEREHOUSE/dashboard/homepage/dashboard_isi/barang.dart';
 //import 'package:barcode_scan/barcode_scan.dart';
 
 import 'dart:async'; // Add this import statement
@@ -266,7 +267,16 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           MaterialPageRoute(builder: (context) => QRViewExample()),
                         );
                       });
-                    }
+                    } else if (imageName == 'icon_data.png') {
+                      showLoading(context);
+                      Future.delayed(Duration(seconds: 1), () {
+                        Navigator.pop(context);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Barang()),
+                        );
+                      });
+                    } 
                   },
                   child: Container(
                     margin: const EdgeInsets.only(right: 20),

@@ -23,12 +23,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     "icon_bantuan.png": "bantuan",
     "icon_data.png": "barang",
     "icon_scan.png": "scan",
+    "icon_akun.png": "akun",
   };
 
   Map<String, String> images2 = {
     'image1': 'laporan.png',
     'image2': 'data_barang.png',
-    'image3': 'data_barang.png',
+    'image3': 'akun.png',
   };
 
   late TabController _tabController;

@@ -1,5 +1,5 @@
-import 'package:WEREHOUSE/dashboard/homepage/dashboard_isi/barang.dart';
-
+import 'package:WEREHOUSE/dashboard/homepage/fitur_scan.dart';
+import 'package:WEREHOUSE/dashboard/homepage/laporan_dashboard/fitur_laporan.dart';
 import 'package:WEREHOUSE/dashboard/homepage/home_page.dart';
 import 'package:flutter/material.dart';
 
@@ -13,8 +13,8 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   List pages = [
     HomePage(),
-    Barang(),
-    
+    fitur_laporan(),
+    QRViewExample(),
   ];
 
   //fungsi untuk klik navigator agar pindah ke halaman yang di klik 

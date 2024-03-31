@@ -31,6 +31,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     'image1': 'laporan.png',
     'image2': 'data_barang.png',
     'image3': 'akun.png',
+    'image4': 'scan.png',
   };
 
   late TabController _tabController;

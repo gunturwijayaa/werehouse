@@ -9,6 +9,25 @@ DateTime? selectedDate; // Change to nullable DateTime
 class Barang extends StatelessWidget {
   final Key? key;
   final TextEditingController _expiredController = TextEditingController();
+  final List<String> satuanOptions = [
+    'Pieces (pcs)',
+    'Kilogram (kg)',
+    'Gram (g)',
+    'Meter (m)',
+    'Centimeter (cm)',
+    'Liter (L)',
+    'Mililiter (ml)',
+    'Box',
+    'Botol',
+    'Dus',
+    'Rol',
+    'Lembar',
+    'Set',
+    'Buah',
+    'Pak',
+  ];
+
+  String? selectedSatuan;
 
   Barang({this.key}) : super(key: key);
 
@@ -40,49 +59,52 @@ class Barang extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       _buildTextField(
-                        hintText: 'Dari :',
+                        hintText: 'Dari',
+                        label: 'Bantuan Dari :',
                       ),
                       const SizedBox(height: 10),
                       _buildTextField(
-                        hintText: 'Jenis :',
+                        hintText: 'Jenis',
+                        label: 'Jenis Terima :',
                       ),
                       const SizedBox(height: 10),
                       _buildTextField(
-                        hintText: 'Jumlah :',
+                        hintText: 'Jumlah ',
+                        label: 'Jumlah :',
+                      ),
+                      const SizedBox(height: 10),
+                      _buildSatuanDropdown(
+                       hintText: '(satuan)', 
+                       label: 'Satuan :',
                       ),
                       const SizedBox(height: 10),
                       _buildTextField(
-                        hintText: 'Satuan :',
-                      ),
-                      const SizedBox(height: 10),
-                      InkWell(
+                        hintText: 'Kadaluarsa',
+                        label: 'Tanggal Kadaluarsa :',
+                        controller: _expiredController,
                         onTap: () {
                           _selectDate(context);
                         },
-                        child: IgnorePointer(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10.0),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
-                                  spreadRadius: 1,
-                                  blurRadius: 7,
-                                  offset: Offset(0, 3),
-                                ),
-                              ],
-                            ),
-                            child: TextFormField(
-                              controller: _expiredController, // Assign controller
-                              decoration: InputDecoration(
-                                hintText: 'Kadaluarsa :',
-                                border: InputBorder.none,
-                                contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-                              ),
-                            ),
+                      ),
+                      const SizedBox(height: 20),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          _customButton(
+                            text: 'Simpan',
+                            onPressed: () {
+                              // Tambahkan fungsi untuk menyimpan data
+                            },
+                            color: Colors.green,
                           ),
-                        ),
+                          _customButton(
+                            text: 'Hapus',
+                            onPressed: () {
+                              // Tambahkan fungsi untuk menghapus data
+                            },
+                            color: Colors.red,
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -95,29 +117,98 @@ class Barang extends StatelessWidget {
     );
   }
 
-  Widget _buildTextField({required String hintText}) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10.0),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
-            spreadRadius: 1,
-            blurRadius: 7,
-            offset: Offset(0, 3),
-          ),
-        ],
-      ),
-      child: TextField(
-        decoration: InputDecoration(
-          hintText: hintText,
-          border: InputBorder.none,
-          contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+  Widget _buildTextField({
+  required String hintText,
+  required String label,
+  TextEditingController? controller,
+  VoidCallback? onTap,
+}) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Text(
+        label,
+        style: TextStyle(
+          color: Colors.grey,
+          fontSize: 12,
         ),
       ),
+      SizedBox(height: 5),
+      Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10.0),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 1,
+              blurRadius: 7,
+              offset: Offset(0, 3),
+            ),
+          ],
+        ),
+        child: TextFormField(
+          controller: controller,
+          onTap: onTap,
+          maxLines: null, // Set maxLines menjadi null untuk mengizinkan teks turun ke baris baru
+          decoration: InputDecoration(
+            hintText: hintText,
+            border: InputBorder.none,
+            contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+          ),
+        ),
+      ),
+    ],
+  );
+}
+
+
+  Widget _buildSatuanDropdown({required String hintText, required String label}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: TextStyle(
+            color: Colors.grey,
+            fontSize: 12,
+          ),
+        ),
+        SizedBox(height: 5),
+        Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10.0),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 1,
+                blurRadius: 7,
+                offset: Offset(0, 3),
+              ),
+            ],
+          ),
+          child: DropdownButtonFormField<String>(
+            value: selectedSatuan,
+            onChanged: (newValue) {
+              selectedSatuan = newValue;
+            },
+            items: satuanOptions.map((satuan) {
+              return DropdownMenuItem<String>(
+                value: satuan,
+                child: Text(satuan),
+              );
+            }).toList(),
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+            ),
+          ),
+        ),
+      ],
     );
   }
+
 
   AspectRatio _card() {
     return AspectRatio(
@@ -153,7 +244,7 @@ class Barang extends StatelessWidget {
                       ),
                       children: const [
                         TextSpan(
-                          text: "Silahkan Anda ",
+                          text: "Silahkan  ",
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.w800,
@@ -161,7 +252,7 @@ class Barang extends StatelessWidget {
                         ),
                         TextSpan(
                           text:
-                              "\n Melengkapi Isi Field \n Yang Ada Di \n Bawah Ini...",
+                              "\n Melengkapi Kolom \n Yang Ada Di \n Bawah Ini...",
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.w800,
@@ -189,7 +280,7 @@ class Barang extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            'Barang',
+            'Input Barang ',
             style: GoogleFonts.manrope(
               fontSize: 24,
               fontWeight: FontWeight.w800,
@@ -197,6 +288,26 @@ class Barang extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _customButton({required String text, required VoidCallback onPressed, required Color color}) {
+    return ElevatedButton(
+      onPressed: onPressed,
+      child: Text(
+        text,
+        style: TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: color,
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
       ),
     );
   }

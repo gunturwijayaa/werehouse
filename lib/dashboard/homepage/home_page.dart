@@ -4,6 +4,7 @@ import 'package:WEREHOUSE/dashboard/lainnya/AppColors.dart';
 import 'package:WEREHOUSE/dashboard/lainnya/AppLargeText.dart';
 import 'package:WEREHOUSE/dashboard/homepage/laporan_dashboard/fitur_laporan.dart';
 import 'package:WEREHOUSE/dashboard/homepage/fitur_scan.dart';
+import 'package:WEREHOUSE/dashboard/homepage/profile.dart';
 import 'package:WEREHOUSE/dashboard/homepage/dashboard_isi/barang.dart';
 //import 'package:barcode_scan/barcode_scan.dart';
 
@@ -275,6 +276,15 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => Barang()),
+                        );
+                      });
+                    } else if (imageName == 'icon_akun.png') {
+                      showLoading(context);
+                      Future.delayed(Duration(seconds: 1), () {
+                        Navigator.pop(context);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => RootApp()),
                         );
                       });
                     } 

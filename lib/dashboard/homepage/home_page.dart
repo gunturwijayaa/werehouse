@@ -7,6 +7,7 @@ import 'package:WEREHOUSE/dashboard/homepage/fitur_scan.dart';
 import 'package:WEREHOUSE/dashboard/homepage/profile.dart';
 import 'package:WEREHOUSE/dashboard/homepage/dashboard_isi/barang.dart';
 import 'package:WEREHOUSE/dashboard/homepage/bantuan.dart';
+import 'package:WEREHOUSE/dashboard/homepage/fitur_akun.dart';
 //import 'package:barcode_scan/barcode_scan.dart';
 
 import 'dart:async'; // Add this import statement
@@ -285,7 +286,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         Navigator.pop(context);
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => RootApp()),
+                          MaterialPageRoute(builder: (context) => fitur_akun()),
                         );
                       });
                     } 

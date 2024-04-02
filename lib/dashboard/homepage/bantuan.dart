@@ -99,10 +99,10 @@ class bantuan extends StatelessWidget {
                         label: 'Foto Dokumentasi :',
                         controller: _inputGambar,
                         onTap: () {
-                          _selectDate(context);
+                          _getImage();
                         },
-                        onButtonTap:
-                            _getImage, // Tambahkan onButtonTap ke _getImage
+
+                        // Tambahkan onButtonTap ke _getImage
                       ),
                       const SizedBox(height: 10),
                       _buildTextFieldWithButton(
@@ -145,83 +145,6 @@ class bantuan extends StatelessWidget {
   }
 
   Widget _buildTextFieldWithButton({
-  required String hintText,
-  required String label,
-  TextEditingController? controller,
-  VoidCallback? onTap,
-  VoidCallback? onButtonTap,
-}) {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Text(
-        label,
-        style: TextStyle(
-          color: Colors.grey,
-          fontSize: 12,
-        ),
-      ),
-      SizedBox(height: 5),
-      Row(
-        children: [
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10.0),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 1,
-                    blurRadius: 7,
-                    offset: Offset(0, 3),
-                  ),
-                ],
-              ),
-              child: TextFormField(
-                controller: controller,
-                onTap: onTap,
-                readOnly: true, // Set field menjadi tidak bisa ditulis
-                maxLines: null,
-                decoration: InputDecoration(
-                  hintText: hintText,
-                  border: InputBorder.none,
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-                  suffixIcon: Icon(
-                    Icons.keyboard_arrow_down,
-                    color: Colors.grey,
-                  ),
-                ),
-              ),
-            ),
-          ),
-          SizedBox(width: 10),
-          if (onButtonTap != null)
-            InkWell(
-              onTap: onButtonTap,
-              child: Container(
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                  color: Colors.blue,
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                child: Icon(
-                  Icons.add,
-                  size: 24,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-        ],
-      ),
-    ],
-  );
-}
-
-
-  Widget _fieldDokumentasi({
     required String hintText,
     required String label,
     TextEditingController? controller,
@@ -258,18 +181,17 @@ class bantuan extends StatelessWidget {
                 child: TextFormField(
                   controller: controller,
                   onTap: onTap,
-                  readOnly: true,
-                  maxLines: 1, // Set maksimum baris menjadi 1
-                  style: TextStyle(
-                    // Atur overflow agar teks tidak memanjang ke bawah
-                    // menggunakan ellipsis jika melebihi batas
-                    overflow: TextOverflow.ellipsis,
-                  ),
+                  readOnly: true, // Set field menjadi tidak bisa ditulis
+                  maxLines: null,
                   decoration: InputDecoration(
                     hintText: hintText,
                     border: InputBorder.none,
                     contentPadding:
                         EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                    suffixIcon: Icon(
+                      Icons.keyboard_arrow_down,
+                      color: Colors.grey,
+                    ),
                   ),
                 ),
               ),
@@ -297,6 +219,104 @@ class bantuan extends StatelessWidget {
       ],
     );
   }
+
+ Widget _fieldDokumentasi({
+  required String hintText,
+  required String label,
+  TextEditingController? controller,
+  VoidCallback? onTap,
+  VoidCallback? onButtonTap,
+}) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Text(
+        label,
+        style: TextStyle(
+          color: Colors.grey,
+          fontSize: 12,
+        ),
+      ),
+      SizedBox(height: 5),
+      Row(
+        children: [
+          Expanded(
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10.0),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 1,
+                    blurRadius: 7,
+                    offset: Offset(0, 3),
+                  ),
+                ],
+              ),
+              child: TextFormField(
+                controller: controller,
+                onTap: onTap,
+                readOnly: true,
+                maxLines: 1,
+                style: TextStyle(
+                  overflow: TextOverflow.ellipsis,
+                ),
+                decoration: InputDecoration(
+                  hintText: hintText,
+                  border: InputBorder.none,
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                  prefixIcon: Icon(
+                    Icons.add,
+                    color: Colors.blue,
+                  ),
+                  suffixIcon: onButtonTap != null
+                      ? InkWell(
+                          onTap: onButtonTap,
+                          child: Container(
+                            width: 40,
+                            height: 40,
+                            decoration: BoxDecoration(
+                              color: Colors.blue,
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            child: Icon(
+                              Icons.add,
+                              size: 24,
+                              color: Colors.white,
+                            ),
+                          ),
+                        )
+                      : null,
+                ),
+              ),
+            ),
+          ),
+          SizedBox(width: 10),
+          if (onButtonTap != null)
+            InkWell(
+              onTap: onButtonTap,
+              child: Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: Colors.blue,
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: Icon(
+                  Icons.add,
+                  size: 24,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+        ],
+      ),
+    ],
+  );
+}
+
 
   Future<void> _getImage() async {
     final ImagePicker _picker =

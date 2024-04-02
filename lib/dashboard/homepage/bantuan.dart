@@ -78,14 +78,17 @@ class bantuan extends StatelessWidget {
                         hintText1: 'Nama',
                         hintText2: 'Jumlah',
                         hintText3: 'Satuan',
-                        label1: 'Nama Barang:',
-                        label2: 'Jumlah:',
-                        label3: 'Satuan:',
+                        label1: 'Nama Barang :',
+                        label2: 'Jumlah :',
+                        label3: 'Satuan :',
                         controller1: _namaBarangController,
                         controller2: _jumlahController,
                         controller3: _satuanController,
                         onTap1: () {
                           _showDaftarBarang(context);
+                        },
+                        onTap3: () {
+                          ShowsatuanOptions(context);
                         },
                       ),
                       const SizedBox(height: 10),
@@ -170,7 +173,8 @@ class bantuan extends StatelessWidget {
                   decoration: InputDecoration(
                     hintText: hintText,
                     border: InputBorder.none,
-                    contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 15, horizontal: 20),
                   ),
                 ),
               ),
@@ -227,7 +231,6 @@ class bantuan extends StatelessWidget {
                   label1,
                   style: TextStyle(
                     color: Colors.grey,
-                    fontSize: 12,
                   ),
                 ),
                 SizedBox(height: 5),
@@ -244,10 +247,10 @@ class bantuan extends StatelessWidget {
                       ),
                     ],
                   ),
-                  child: TextFormField(
+                  child: TextField(
                     controller: controller1,
                     onTap: onTap1,
-                    readOnly: true, // Set field menjadi tidak bisa ditulis
+                    readOnly: true,
                     decoration: InputDecoration(
                       hintText: hintText1,
                       border: InputBorder.none,
@@ -267,7 +270,6 @@ class bantuan extends StatelessWidget {
                   label2,
                   style: TextStyle(
                     color: Colors.grey,
-                    fontSize: 12,
                   ),
                 ),
                 SizedBox(height: 5),
@@ -286,12 +288,15 @@ class bantuan extends StatelessWidget {
                   ),
                   child: TextField(
                     controller: controller2,
-                    keyboardType: TextInputType.number, // Set keyboard type to number
+                    keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       hintText: hintText2,
                       border: InputBorder.none,
                       contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
                     ),
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly
+                    ],
                   ),
                 ),
               ],
@@ -306,7 +311,6 @@ class bantuan extends StatelessWidget {
                   label3,
                   style: TextStyle(
                     color: Colors.grey,
-                    fontSize: 12,
                   ),
                 ),
                 SizedBox(height: 5),
@@ -326,7 +330,7 @@ class bantuan extends StatelessWidget {
                   child: TextField(
                     controller: controller3,
                     onTap: onTap3,
-                    readOnly: true, // Set field menjadi tidak bisa ditulis
+                    readOnly: true,
                     decoration: InputDecoration(
                       hintText: hintText3,
                       border: InputBorder.none,
@@ -357,13 +361,14 @@ class bantuan extends StatelessWidget {
             ),
         ],
       ),
+      SizedBox(height: 5),
     ],
   );
 }
 
 
-
-  Widget _buildSatuanDropdown({required String hintText, required String label}) {
+  Widget _buildSatuanDropdown(
+      {required String hintText, required String label}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -401,7 +406,8 @@ class bantuan extends StatelessWidget {
             }).toList(),
             decoration: InputDecoration(
               border: InputBorder.none,
-              contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+              contentPadding:
+                  EdgeInsets.symmetric(vertical: 15, horizontal: 20),
             ),
           ),
         ),
@@ -491,7 +497,10 @@ class bantuan extends StatelessWidget {
     );
   }
 
-  Widget _customButton({required String text, required VoidCallback onPressed, required Color color}) {
+  Widget _customButton(
+      {required String text,
+      required VoidCallback onPressed,
+      required Color color}) {
     return ElevatedButton(
       onPressed: onPressed,
       child: Text(
@@ -537,6 +546,28 @@ class bantuan extends StatelessWidget {
                 title: Text(daftarBarang[index]),
                 onTap: () {
                   _namaBarangController.text = daftarBarang[index];
+                  Navigator.pop(context);
+                },
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
+
+  void ShowsatuanOptions(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          child: ListView.builder(
+            itemCount: satuanOptions.length,
+            itemBuilder: (BuildContext context, int index) {
+              return ListTile(
+                title: Text(satuanOptions[index]),
+                onTap: () {
+                  _satuanController.text = satuanOptions[index];
                   Navigator.pop(context);
                 },
               );

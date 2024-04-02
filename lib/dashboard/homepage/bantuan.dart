@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/cupertino.dart'; // Import untuk showDatePicker
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 
 var selectedService = 0;
 DateTime? selectedDate; // Change to nullable DateTime
 
+
 class bantuan extends StatelessWidget {
   final Key? key;
   final TextEditingController _expiredController = TextEditingController();
+  final TextEditingController _inputGambar = TextEditingController();
   final TextEditingController _namaBarangController = TextEditingController();
   final TextEditingController _jumlahController = TextEditingController();
   final TextEditingController _satuanController = TextEditingController();
@@ -92,9 +95,19 @@ class bantuan extends StatelessWidget {
                         },
                       ),
                       const SizedBox(height: 10),
+                      _fieldDokumentasi(
+                        hintText: 'Input Images',
+                        label: 'Foto Dokumentasi :',
+                        controller: _inputGambar,
+                        onTap: () {
+                          _selectDate(context);
+                        },
+                        onButtonTap: _getImage, // Tambahkan onButtonTap ke _getImage
+                      ),
+                      const SizedBox(height: 10),
                       _buildTextFieldWithButton(
-                        hintText: 'Kadaluarsa',
-                        label: 'Tanggal Kadaluarsa :',
+                        hintText: 'Input Tanggal',
+                        label: 'Tanggal :',
                         controller: _expiredController,
                         onTap: () {
                           _selectDate(context);
@@ -109,14 +122,14 @@ class bantuan extends StatelessWidget {
                             onPressed: () {
                               // Tambahkan fungsi untuk menyimpan data
                             },
-                            color: Colors.green,
+                            color: Colors.blue,
                           ),
                           _customButton(
-                            text: 'Hapus',
+                            text: 'Cancel',
                             onPressed: () {
                               // Tambahkan fungsi untuk menghapus data
                             },
-                            color: Colors.red,
+                            color: Colors.grey,
                           ),
                         ],
                       ),
@@ -197,148 +210,62 @@ class bantuan extends StatelessWidget {
                   ),
                 ),
               ),
-          ],
+          ],//tttt
         ),
       ],
     );
   }
 
-  Widget _buildThreeFieldsInRow({
-  required String hintText1,
-  required String hintText2,
-  required String hintText3,
-  required String label1,
-  required String label2,
-  required String label3,
-  TextEditingController? controller1,
-  TextEditingController? controller2,
-  TextEditingController? controller3,
-  VoidCallback? onTap1,
-  VoidCallback? onTap2,
-  VoidCallback? onTap3,
+  Widget _fieldDokumentasi({
+  required String hintText,
+  required String label,
+  TextEditingController? controller,
+  VoidCallback? onTap,
   VoidCallback? onButtonTap,
 }) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
+      Text(
+        label,
+        style: TextStyle(
+          color: Colors.grey,
+          fontSize: 12,
+        ),
+      ),
+      SizedBox(height: 5),
       Row(
         children: [
           Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  label1,
-                  style: TextStyle(
-                    color: Colors.grey,
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10.0),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 1,
+                    blurRadius: 7,
+                    offset: Offset(0, 3),
                   ),
+                ],
+              ),
+              child: TextFormField(
+                controller: controller,
+                onTap: onTap,
+                readOnly: true,
+                maxLines: 1, // Set maksimum baris menjadi 1
+                style: TextStyle(
+                  // Atur overflow agar teks tidak memanjang ke bawah
+                  // menggunakan ellipsis jika melebihi batas
+                  overflow: TextOverflow.ellipsis,
                 ),
-                SizedBox(height: 5),
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10.0),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 1,
-                        blurRadius: 7,
-                        offset: Offset(0, 3),
-                      ),
-                    ],
-                  ),
-                  child: TextField(
-                    controller: controller1,
-                    onTap: onTap1,
-                    readOnly: true,
-                    decoration: InputDecoration(
-                      hintText: hintText1,
-                      border: InputBorder.none,
-                      contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-                    ),
-                  ),
+                decoration: InputDecoration(
+                  hintText: hintText,
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
                 ),
-              ],
-            ),
-          ),
-          SizedBox(width: 10),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  label2,
-                  style: TextStyle(
-                    color: Colors.grey,
-                  ),
-                ),
-                SizedBox(height: 5),
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10.0),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 1,
-                        blurRadius: 7,
-                        offset: Offset(0, 3),
-                      ),
-                    ],
-                  ),
-                  child: TextField(
-                    controller: controller2,
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                      hintText: hintText2,
-                      border: InputBorder.none,
-                      contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-                    ),
-                    inputFormatters: <TextInputFormatter>[
-                      FilteringTextInputFormatter.digitsOnly
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(width: 10),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  label3,
-                  style: TextStyle(
-                    color: Colors.grey,
-                  ),
-                ),
-                SizedBox(height: 5),
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10.0),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 1,
-                        blurRadius: 7,
-                        offset: Offset(0, 3),
-                      ),
-                    ],
-                  ),
-                  child: TextField(
-                    controller: controller3,
-                    onTap: onTap3,
-                    readOnly: true,
-                    decoration: InputDecoration(
-                      hintText: hintText3,
-                      border: InputBorder.none,
-                      contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
           SizedBox(width: 10),
@@ -361,11 +288,186 @@ class bantuan extends StatelessWidget {
             ),
         ],
       ),
-      SizedBox(height: 5),
     ],
   );
 }
 
+
+  Future<void> _getImage() async {
+    final ImagePicker _picker = ImagePicker(); // Instansiasi ImagePicker di sini
+    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      _inputGambar.text = image.path;
+    }
+  }
+
+  
+
+  Widget _buildThreeFieldsInRow({
+    required String hintText1,
+    required String hintText2,
+    required String hintText3,
+    required String label1,
+    required String label2,
+    required String label3,
+    TextEditingController? controller1,
+    TextEditingController? controller2,
+    TextEditingController? controller3,
+    VoidCallback? onTap1,
+    VoidCallback? onTap2,
+    VoidCallback? onTap3,
+    VoidCallback? onButtonTap,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    label1,
+                    style: TextStyle(
+                      color: Colors.grey,
+                    ),
+                  ),
+                  SizedBox(height: 5),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 1,
+                          blurRadius: 7,
+                          offset: Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    child: TextField(
+                      controller: controller1,
+                      onTap: onTap1,
+                      readOnly: true,
+                      decoration: InputDecoration(
+                        hintText: hintText1,
+                        border: InputBorder.none,
+                        contentPadding:
+                            EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    label2,
+                    style: TextStyle(
+                      color: Colors.grey,
+                    ),
+                  ),
+                  SizedBox(height: 5),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 1,
+                          blurRadius: 7,
+                          offset: Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    child: TextField(
+                      controller: controller2,
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        hintText: hintText2,
+                        border: InputBorder.none,
+                        contentPadding:
+                            EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                      ),
+                      inputFormatters: <TextInputFormatter>[
+                        FilteringTextInputFormatter.digitsOnly
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    label3,
+                    style: TextStyle(
+                      color: Colors.grey,
+                    ),
+                  ),
+                  SizedBox(height: 5),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 1,
+                          blurRadius: 7,
+                          offset: Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    child: TextField(
+                      controller: controller3,
+                      onTap: onTap3,
+                      readOnly: true,
+                      decoration: InputDecoration(
+                        hintText: hintText3,
+                        border: InputBorder.none,
+                        contentPadding:
+                            EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(width: 10),
+            if (onButtonTap != null)
+              InkWell(
+                onTap: onButtonTap,
+                child: Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: Colors.blue,
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Icon(
+                    Icons.add,
+                    size: 24,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+          ],
+        ),
+        SizedBox(height: 5),
+      ],
+    );
+  }
 
   Widget _buildSatuanDropdown(
       {required String hintText, required String label}) {
@@ -485,7 +587,7 @@ class bantuan extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            'Input Barang ',
+            'Bantuan Logistik ',
             style: GoogleFonts.manrope(
               fontSize: 24,
               fontWeight: FontWeight.w800,

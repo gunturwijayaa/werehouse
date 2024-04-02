@@ -33,4 +33,10 @@ var doctors = [
     services: ["Laporan Pengeluaran Logistik"],
     distance: "",
   ),
+  DoctorModel(
+    name: "Rekab Kejadian",
+    image: "gambar_laporan.png", // Memperbarui path gambar disini
+    services: ["Laporan Kejadian Bencana"],
+    distance: "",
+  ),
 ];

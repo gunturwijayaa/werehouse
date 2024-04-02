@@ -6,6 +6,7 @@ import 'package:WEREHOUSE/dashboard/homepage/laporan_dashboard/fitur_laporan.dar
 import 'package:WEREHOUSE/dashboard/homepage/fitur_scan.dart';
 import 'package:WEREHOUSE/dashboard/homepage/profile.dart';
 import 'package:WEREHOUSE/dashboard/homepage/dashboard_isi/barang.dart';
+import 'package:WEREHOUSE/dashboard/homepage/bantuan.dart';
 //import 'package:barcode_scan/barcode_scan.dart';
 
 import 'dart:async'; // Add this import statement
@@ -285,6 +286,16 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => RootApp()),
+                        );
+                      });
+                    } 
+                     else if (imageName == 'icon_bantuan.png') {
+                      showLoading(context);
+                      Future.delayed(Duration(seconds: 1), () {
+                        Navigator.pop(context);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => bantuan()),
                         );
                       });
                     } 

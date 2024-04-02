@@ -9,6 +9,9 @@ DateTime? selectedDate; // Change to nullable DateTime
 class bantuan extends StatelessWidget {
   final Key? key;
   final TextEditingController _expiredController = TextEditingController();
+  final TextEditingController _namaBarangController = TextEditingController();
+  final TextEditingController _jumlahController = TextEditingController();
+  final TextEditingController _satuanController = TextEditingController();
   final List<String> satuanOptions = [
     'Pieces (pcs)',
     'Kilogram (kg)',
@@ -71,27 +74,19 @@ class bantuan extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      _buildTextFieldWithButton(
-                        hintText: '',
-                        label: 'Nama Barang :',
-                        onButtonTap: () {
+                      _buildThreeFieldsInRow(
+                        hintText1: 'Nama',
+                        hintText2: 'Jumlah',
+                        hintText3: 'Satuan',
+                        label1: 'Nama Barang:',
+                        label2: 'Jumlah:',
+                        label3: 'Satuan:',
+                        controller1: _namaBarangController,
+                        controller2: _jumlahController,
+                        controller3: _satuanController,
+                        onTap1: () {
                           _showDaftarBarang(context);
                         },
-                      ),
-                      const SizedBox(height: 10),
-                      _buildTextFieldWithButton(
-                        hintText: 'Jenis',
-                        label: 'Jenis Terima :',
-                      ),
-                      const SizedBox(height: 10),
-                      _buildTextFieldWithButton(
-                        hintText: 'Jumlah ',
-                        label: 'Jumlah :',
-                      ),
-                      const SizedBox(height: 10),
-                      _buildSatuanDropdown(
-                        hintText: '(satuan)', 
-                        label: 'Satuan :',
                       ),
                       const SizedBox(height: 10),
                       _buildTextFieldWithButton(
@@ -203,6 +198,170 @@ class bantuan extends StatelessWidget {
       ],
     );
   }
+
+  Widget _buildThreeFieldsInRow({
+  required String hintText1,
+  required String hintText2,
+  required String hintText3,
+  required String label1,
+  required String label2,
+  required String label3,
+  TextEditingController? controller1,
+  TextEditingController? controller2,
+  TextEditingController? controller3,
+  VoidCallback? onTap1,
+  VoidCallback? onTap2,
+  VoidCallback? onTap3,
+  VoidCallback? onButtonTap,
+}) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  label1,
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 12,
+                  ),
+                ),
+                SizedBox(height: 5),
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10.0),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 1,
+                        blurRadius: 7,
+                        offset: Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: TextFormField(
+                    controller: controller1,
+                    onTap: onTap1,
+                    readOnly: true, // Set field menjadi tidak bisa ditulis
+                    decoration: InputDecoration(
+                      hintText: hintText1,
+                      border: InputBorder.none,
+                      contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  label2,
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 12,
+                  ),
+                ),
+                SizedBox(height: 5),
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10.0),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 1,
+                        blurRadius: 7,
+                        offset: Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: TextField(
+                    controller: controller2,
+                    keyboardType: TextInputType.number, // Set keyboard type to number
+                    decoration: InputDecoration(
+                      hintText: hintText2,
+                      border: InputBorder.none,
+                      contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  label3,
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 12,
+                  ),
+                ),
+                SizedBox(height: 5),
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10.0),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 1,
+                        blurRadius: 7,
+                        offset: Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: TextField(
+                    controller: controller3,
+                    onTap: onTap3,
+                    readOnly: true, // Set field menjadi tidak bisa ditulis
+                    decoration: InputDecoration(
+                      hintText: hintText3,
+                      border: InputBorder.none,
+                      contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(width: 10),
+          if (onButtonTap != null)
+            InkWell(
+              onTap: onButtonTap,
+              child: Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: Colors.blue,
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: Icon(
+                  Icons.add,
+                  size: 24,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+        ],
+      ),
+    ],
+  );
+}
+
+
 
   Widget _buildSatuanDropdown({required String hintText, required String label}) {
     return Column(
@@ -377,7 +536,7 @@ class bantuan extends StatelessWidget {
               return ListTile(
                 title: Text(daftarBarang[index]),
                 onTap: () {
-                  _expiredController.text = daftarBarang[index];
+                  _namaBarangController.text = daftarBarang[index];
                   Navigator.pop(context);
                 },
               );

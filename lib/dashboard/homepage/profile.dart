@@ -32,22 +32,27 @@ class _RootAppState extends State<RootApp> {
       CustomListTile(
         icon: Icons.person,
         title: "akun",
+        shadow: Colors.black,
       ),
       CustomListTile(
         icon: Icons.edit,
         title: "Edit Profile",
+        shadow: Colors.black,
       ),
       CustomListTile(
         icon: Icons.lock,
         title: "Kata Sandi dan Keamanan",
+        shadow: Colors.black,
       ),
       CustomListTile(
         title: "Detail Pribadi",
         icon: CupertinoIcons.person_2_alt,
+        shadow: Colors.black,
       ),
       CustomListTile(
         title: "Logout",
         icon: CupertinoIcons.arrow_right_arrow_left,
+        shadow: Colors.black,
       ),
     ];
 
@@ -144,11 +149,15 @@ class _RootAppState extends State<RootApp> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue, // Warna latar belakang tombol
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30), // Mengatur border radius
+                    borderRadius:
+                        BorderRadius.circular(30), // Mengatur border radius
                   ),
+                  elevation: 4, // Menambahkan elevasi
+                  shadowColor: Colors.black, // Warna bayangan
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   child: Text(
                     "Edit", // Teks pada tombol
                     style: TextStyle(
@@ -159,7 +168,7 @@ class _RootAppState extends State<RootApp> {
                 ),
               ),
             ],
-          ),         
+          ),
           const SizedBox(height: 20),
           ...List.generate(
             customListTiles.length,
@@ -169,9 +178,10 @@ class _RootAppState extends State<RootApp> {
                 padding: const EdgeInsets.only(bottom: 5),
                 child: Card(
                   elevation: 4,
-                  shadowColor: Colors.black12,
+                  shadowColor: tile.shadow ?? Colors.black12, // Penambahan shadow color
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30), // Mengatur border radius
+                    borderRadius:
+                        BorderRadius.circular(30), // Mengatur border radius
                   ),
                   child: ListTile(
                     leading: Icon(tile.icon),
@@ -197,8 +207,10 @@ class _RootAppState extends State<RootApp> {
 class CustomListTile {
   final IconData icon;
   final String title;
+  final Color? shadow; // Mengubah tipe menjadi Color
   CustomListTile({
     required this.icon,
     required this.title,
+    this.shadow, // Mengubah tipe menjadi Color
   });
 }

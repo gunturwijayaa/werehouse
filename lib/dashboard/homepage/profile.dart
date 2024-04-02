@@ -14,7 +14,8 @@ class _RootAppState extends State<RootApp> {
   File? _image;
 
   Future<void> _getImage() async {
-    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    final pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
 
     setState(() {
       if (pickedFile != null) {
@@ -29,7 +30,7 @@ class _RootAppState extends State<RootApp> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false, // Menghilangkan tombol kembali
+        automaticallyImplyLeading: true,
         elevation: 0,
         backgroundColor: Colors.transparent,
         foregroundColor: Colors.black,
@@ -42,15 +43,63 @@ class _RootAppState extends State<RootApp> {
           // COLUMN THAT WILL CONTAIN THE PROFILE
           Column(
             children: [
-            CircleAvatar(
-              radius: 50,
-              backgroundImage: _image != null
-                ? FileImage(_image!) as ImageProvider<Object>
-                : const NetworkImage(
-                    "https://images.unsplash.com/photo-1554151228-14d9def656e4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=386&q=80",
+              Stack(
+                children: [
+                  CircleAvatar(
+                    radius: 50,
+                    backgroundColor: Colors.white,
+                    backgroundImage: _image != null
+                        ? FileImage(_image!) as ImageProvider<Object>
+                        : const NetworkImage(
+                            "https://www.pngall.com/wp-content/uploads/5/Profile-PNG-Images.png",
+                          ),
                   ),
+                  Positioned(
+  bottom: 5,
+  right: -2,
+  child: Stack(
+    children: [
+      Container(
+        width: 29, // menyesuaikan dengan lebar icon dan outline
+        height: 29, // menyesuaikan dengan tinggi icon dan outline
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: Colors.blue,
+        ),
+      ),
+      Positioned(
+        top: 0,
+        left: 0,
+        child: Container(
+          width: 29,
+          height: 29,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            border: Border.all(
+              color: Colors.white,
+              width: 2,
             ),
+          ),
+        ),
+      ),
+      Positioned(
+        child: IconButton(
+          onPressed: _getImage,
+          icon: Icon(
+            Icons.add,
+            size: 17,
+            color: Colors.white,
+          ),
+        ),
+        left: -9, // menyesuaikan posisi ikon dalam kotak biru
+        top: -9, // menyesuaikan posisi ikon dalam kotak biru
+      ),
+    ],
+  ),
+),
 
+                ],
+              ),
               SizedBox(height: 10),
               Text(
                 "Guntur Wijaya",
@@ -130,14 +179,16 @@ class _RootAppState extends State<RootApp> {
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
                               ),
-                              backgroundColor: Colors.blue, // Memberikan warna biru pada tombol
+                              backgroundColor: Colors
+                                  .blue, // Memberikan warna biru pada tombol
                             ),
                             child: Text(
                               card.buttonText,
-                              style: TextStyle(color: Colors.white), // Memberikan warna teks putih
+                              style: TextStyle(
+                                  color: Colors
+                                      .white), // Memberikan warna teks putih
                             ),
                           )
-
                         ],
                       ),
                     ),
@@ -145,14 +196,14 @@ class _RootAppState extends State<RootApp> {
                 );
               },
               separatorBuilder: (context, index) =>
-              const Padding(padding: EdgeInsets.only(right: 5)),
+                  const Padding(padding: EdgeInsets.only(right: 5)),
               itemCount: profileCompletionCards.length,
             ),
           ),
           const SizedBox(height: 20),
           ...List.generate(
             customListTiles.length,
-                (index) {
+            (index) {
               final tile = customListTiles[index];
               return Padding(
                 padding: const EdgeInsets.only(bottom: 5),
@@ -164,7 +215,8 @@ class _RootAppState extends State<RootApp> {
                     title: Text(
                       tile.title,
                       style: TextStyle(
-                        color: tile.title == 'Logout' ? Colors.red : Colors.black,
+                        color:
+                            tile.title == 'Logout' ? Colors.red : Colors.black,
                       ),
                     ),
                     trailing: const Icon(Icons.chevron_right),
@@ -173,13 +225,7 @@ class _RootAppState extends State<RootApp> {
               );
             },
           )
-
         ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _getImage,
-        tooltip: 'Pick Image',
-        child: Icon(Icons.add_a_photo),
       ),
     );
   }
@@ -240,6 +286,5 @@ List<CustomListTile> customListTiles = [
   CustomListTile(
     title: "Logout",
     icon: CupertinoIcons.arrow_right_arrow_left,
-
   ),
 ];

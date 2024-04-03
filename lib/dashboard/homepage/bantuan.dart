@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter/cupertino.dart'; // Import untuk showDatePicker
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:location/location.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 var selectedService = 0;
 DateTime? selectedDate; // Change to nullable DateTime
@@ -11,6 +13,8 @@ class bantuan extends StatelessWidget {
   final Key? key;
   final TextEditingController _expiredController = TextEditingController();
   final TextEditingController _inputGambar = TextEditingController();
+  final TextEditingController _inputShareLocation = TextEditingController();
+  final TextEditingController _inputNomor = TextEditingController();
   final TextEditingController _namaBarangController = TextEditingController();
   final TextEditingController _jumlahController = TextEditingController();
   final TextEditingController _satuanController = TextEditingController();
@@ -48,6 +52,8 @@ class bantuan extends StatelessWidget {
     'Tas',
     'Tas',
   ];
+
+  final Location _location = Location();
 
   @override
   Widget build(BuildContext context) {
@@ -94,6 +100,13 @@ class bantuan extends StatelessWidget {
                         },
                       ),
                       const SizedBox(height: 10),
+                      _fieldNomorKK(
+                        hintText: 'Nomor KK',
+                        label: 'Nomor KK :',
+                        controller: _inputNomor,
+                        onTap: () {},
+                      ),
+                      const SizedBox(height: 10),
                       _fieldDokumentasi(
                         hintText: 'Input Images',
                         label: 'Foto Dokumentasi :',
@@ -101,8 +114,16 @@ class bantuan extends StatelessWidget {
                         onTap: () {
                           _getImage();
                         },
-
-                        // Tambahkan onButtonTap ke _getImage
+                      ),
+                      const SizedBox(height: 10),
+                      _fieldShareLocation(
+                        // Tambahkan field share location di sini
+                        hintText: 'Share Location',
+                        label: 'Share Location :',
+                        controller: _inputShareLocation,
+                        onTap: () {
+                          _shareLocation();
+                        },
                       ),
                       const SizedBox(height: 10),
                       _buildTextFieldWithButton(
@@ -142,6 +163,41 @@ class bantuan extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> _shareLocation() async {
+    bool _serviceEnabled;
+    PermissionStatus _permissionGranted;
+    LocationData _locationData;
+
+    _serviceEnabled = await _location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await _location.requestService();
+      if (!_serviceEnabled) {
+        return;
+      }
+    }
+
+    _permissionGranted = await _location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await _location.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) {
+        return;
+      }
+    }
+
+    _locationData = await _location.getLocation();
+
+    // Buat URL untuk berbagi lokasi
+    String googleMapsUrl =
+        'https://www.google.com/maps/search/?api=1&query=${_locationData.latitude},${_locationData.longitude}';
+
+    // Buka aplikasi peta yang terinstal untuk berbagi lokasi
+    if (await canLaunch(googleMapsUrl)) {
+      await launch(googleMapsUrl);
+    } else {
+      throw 'Could not launch $googleMapsUrl';
+    }
   }
 
   Widget _buildTextFieldWithButton({
@@ -196,127 +252,90 @@ class bantuan extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(width: 10),
-            if (onButtonTap != null)
-              InkWell(
-                onTap: onButtonTap,
-                child: Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    color: Colors.blue,
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  child: Icon(
-                    Icons.add,
-                    size: 24,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
           ],
         ),
       ],
     );
   }
 
- Widget _fieldDokumentasi({
-  required String hintText,
-  required String label,
-  TextEditingController? controller,
-  VoidCallback? onTap,
-  VoidCallback? onButtonTap,
-}) {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Text(
-        label,
-        style: TextStyle(
-          color: Colors.grey,
-          fontSize: 12,
-        ),
-      ),
-      SizedBox(height: 5),
-      Row(
-        children: [
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10.0),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 1,
-                    blurRadius: 7,
-                    offset: Offset(0, 3),
-                  ),
-                ],
-              ),
-              child: TextFormField(
-                controller: controller,
-                onTap: onTap,
-                readOnly: true,
-                maxLines: 1,
-                style: TextStyle(
-                  overflow: TextOverflow.ellipsis,
-                ),
-                decoration: InputDecoration(
-                  hintText: hintText,
-                  border: InputBorder.none,
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-                  prefixIcon: Icon(
-                    Icons.add,
-                    color: Colors.blue,
-                  ),
-                  suffixIcon: onButtonTap != null
-                      ? InkWell(
-                          onTap: onButtonTap,
-                          child: Container(
-                            width: 40,
-                            height: 40,
-                            decoration: BoxDecoration(
-                              color: Colors.blue,
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            child: Icon(
-                              Icons.add,
-                              size: 24,
-                              color: Colors.white,
-                            ),
-                          ),
-                        )
-                      : null,
-                ),
-              ),
-            ),
+  Widget _fieldDokumentasi({
+    required String hintText,
+    required String label,
+    TextEditingController? controller,
+    VoidCallback? onTap,
+    VoidCallback? onButtonTap,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: TextStyle(
+            color: Colors.grey,
+            fontSize: 12,
           ),
-          SizedBox(width: 10),
-          if (onButtonTap != null)
-            InkWell(
-              onTap: onButtonTap,
+        ),
+        SizedBox(height: 5),
+        Row(
+          children: [
+            Expanded(
               child: Container(
-                width: 40,
-                height: 40,
                 decoration: BoxDecoration(
-                  color: Colors.blue,
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                child: Icon(
-                  Icons.add,
-                  size: 24,
                   color: Colors.white,
+                  borderRadius: BorderRadius.circular(10.0),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 1,
+                      blurRadius: 7,
+                      offset: Offset(0, 3),
+                    ),
+                  ],
+                ),
+                child: TextFormField(
+                  controller: controller,
+                  onTap: onTap,
+                  readOnly: true,
+                  maxLines: 1,
+                  style: TextStyle(
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  decoration: InputDecoration(
+                    hintText: hintText,
+                    border: InputBorder.none,
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                    prefixIcon: Icon(//icon field
+                      Icons.add,
+                      color: Colors.blue,
+                    ),
+                    suffixIcon: onButtonTap != null
+                        ? InkWell(
+                            onTap: onButtonTap,
+                            child: Container(
+                              width: 40,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                color: Colors.blue,
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: Icon(
+                                Icons.add,
+                                size: 24,
+                                color: Colors.white,
+                              ),
+                            ),
+                          )
+                        : null,
+                  ),
                 ),
               ),
             ),
-        ],
-      ),
-    ],
-  );
-}
-
+          ],
+        ),
+      ],
+    );
+  }
 
   Future<void> _getImage() async {
     final ImagePicker _picker =
@@ -325,6 +344,154 @@ class bantuan extends StatelessWidget {
     if (image != null) {
       _inputGambar.text = image.path;
     }
+  }
+
+  Widget _fieldShareLocation({
+    required String hintText,
+    required String label,
+    TextEditingController? controller,
+    VoidCallback? onTap,
+    VoidCallback? onButtonTap,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: TextStyle(
+            color: Colors.grey,
+            fontSize: 12,
+          ),
+        ),
+        SizedBox(height: 5),
+        Row(
+          children: [
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10.0),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 1,
+                      blurRadius: 7,
+                      offset: Offset(0, 3),
+                    ),
+                  ],
+                ),
+                child: TextFormField(
+                  controller: controller,
+                  onTap: onTap,
+                  maxLines: null,
+                  style: TextStyle(
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  decoration: InputDecoration(
+                    hintText: hintText,
+                    border: InputBorder.none,
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                    suffixIcon: onButtonTap != null
+                        ? InkWell(
+                            onTap: onButtonTap,
+                            child: Container(
+                              width: 40,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                color: Colors.blue,
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: Icon(
+                                Icons.add,
+                                size: 24,
+                                color: Colors.white,
+                              ),
+                            ),
+                          )
+                        : null,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _fieldNomorKK({
+    required String hintText,
+    required String label,
+    TextEditingController? controller,
+    VoidCallback? onTap,
+    VoidCallback? onButtonTap,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: TextStyle(
+            color: Colors.grey,
+            fontSize: 12,
+          ),
+        ),
+        SizedBox(height: 5),
+        Row(
+          children: [
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10.0),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 1,
+                      blurRadius: 7,
+                      offset: Offset(0, 3),
+                    ),
+                  ],
+                ),
+                child: TextFormField(
+                  controller: controller,
+                  onTap: onTap,
+                  maxLines: null,
+                  style: TextStyle(
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  decoration: InputDecoration(
+                    hintText: hintText,
+                    border: InputBorder.none,
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                    suffixIcon: onButtonTap != null
+                        ? InkWell(
+                            onTap: onButtonTap,
+                            child: Container(
+                              width: 40,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                color: Colors.blue,
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: Icon(
+                                Icons.add,
+                                size: 24,
+                                color: Colors.white,
+                              ),
+                            ),
+                          )
+                        : null,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
   }
 
   Widget _buildThreeFieldsInRow({
@@ -468,24 +635,6 @@ class bantuan extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(width: 10),
-            if (onButtonTap != null)
-              InkWell(
-                onTap: onButtonTap,
-                child: Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    color: Colors.blue,
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  child: Icon(
-                    Icons.add,
-                    size: 24,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
           ],
         ),
         SizedBox(height: 5),

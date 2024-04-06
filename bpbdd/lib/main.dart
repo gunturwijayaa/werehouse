@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:WEREHOUSE/introduction_animation/components/SplashScreen.dart';
 //import 'package:WEREHOUSE/dashboard/homepage/fitur_scan.dart';
+import 'package:WEREHOUSE/dashboard/profileScreen/account_screen.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations(<DeviceOrientation>[
@@ -34,11 +36,10 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: SplashScreen(),//fitur_laporan //MyHome
+      home: AccountScreen(), //fitur_laporan //MyHome
     );
   }
 }
-
 
 class HexColor extends Color {
   HexColor(final String hexColor) : super(_getColorFromHex(hexColor));

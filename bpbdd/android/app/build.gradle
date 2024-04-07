@@ -1,52 +1,46 @@
 buildscript {
-    ext.kotlin_version = "1.6.10" // Atur versi Kotlin yang sesuai di sini
     repositories {
         google()
         mavenCentral()
     }
+
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.3.0'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.android.tools.build:gradle:4.1.0' // Sesuaikan versi dengan kebutuhan Anda
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10" // Tentukan versi Kotlin yang sesuai
+        classpath 'dev.flutter:flutter.gradle:2.8.0' // Pastikan Anda menggunakan versi yang sesuai
     }
 }
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
-    compileSdkVersion 34 // Ubah sesuai kebutuhan, misalnya 30
+    compileSdkVersion 34 // Sesuaikan dengan versi SDK yang Anda gunakan
     buildToolsVersion "30.0.3" // Sesuaikan dengan versi Build Tools yang Anda gunakan
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-
-    kotlinOptions {
-        jvmTarget = '1.8'
-    }
-
-    sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
-    }
-
     defaultConfig {
-        applicationId "com.example.best_flutter_ui_templates"
-        minSdkVersion 20
-        targetSdkVersion 30 // Ubah sesuai kebutuhan, misalnya 30
+        applicationId "com.example.account_example"
+        minSdkVersion flutter.minSdkVersion // Sesuaikan dengan versi SDK minimal yang Anda butuhkan
+        targetSdkVersion 30 // Sesuaikan dengan versi SDK yang Anda gunakan
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
 
     buildTypes {
         release {
-            // Add your own signing config for the release build.
+            // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig signingConfigs.debug
+            // signingConfig signingConfigs.debug
         }
     }
 }
 
+flutter {
+    source '../..'
+}
+
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.10" // Tentukan versi Kotlin yang sesuai
 }

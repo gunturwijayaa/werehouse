@@ -14,6 +14,7 @@ class AccountScreen extends StatefulWidget {
 
 class _AccountScreenState extends State<AccountScreen> {
   bool isDarkMode = false;
+  String selectedLanguage = "English";
 
   // Method to toggle dark mode
   void _toggleDarkMode(bool value) {
@@ -61,7 +62,8 @@ class _AccountScreenState extends State<AccountScreen> {
                   width: double.infinity,
                   child: Row(
                     children: [
-                      Image.asset("assets/dashboard/avatar.png", width: 70, height: 70),
+                      Image.asset("assets/dashboard/avatar.png",
+                          width: 70, height: 70),
                       const SizedBox(width: 20),
                       const Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -129,7 +131,8 @@ class _AccountScreenState extends State<AccountScreen> {
                   bgColor: Colors.purple.shade100,
                   iconColor: Colors.purple,
                   value: isDarkMode,
-                  onTap: _toggleDarkMode, // Call _toggleDarkMode when switch is toggled
+                  onTap:
+                      _toggleDarkMode, // Call _toggleDarkMode when switch is toggled
                 ),
                 const SizedBox(height: 20),
                 SettingItem(

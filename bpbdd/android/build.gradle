@@ -3,14 +3,11 @@ allprojects {
         google()
         mavenCentral()
     }
-}
 
-rootProject.buildDir = '../build'
-subprojects {
-    project.buildDir = "${rootProject.buildDir}/${project.name}"
-}
-subprojects {
-    project.evaluationDependsOn(':app')
+    subprojects {
+        project.buildDir = "${rootProject.buildDir}/${project.name}"
+        evaluationDependsOn(':app')
+    }
 }
 
 tasks.register("clean", Delete) {

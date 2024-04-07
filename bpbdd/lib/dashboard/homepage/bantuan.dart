@@ -98,6 +98,9 @@ class bantuan extends StatelessWidget {
                         onTap3: () {
                           ShowsatuanOptions(context);
                         },
+                        onButtonTap: () {
+                          // Panggil fungsi yang ingin Anda eksekusi ketika tombol ditekan
+                        },
                       ),
                       const SizedBox(height: 10),
                       _fieldNomorKK(
@@ -165,7 +168,7 @@ class bantuan extends StatelessWidget {
     );
   }
 
-   Widget _buildTextFieldWithButton({
+  Widget _buildTextFieldWithButton({
     required String hintText,
     required String label,
     TextEditingController? controller,
@@ -223,279 +226,6 @@ class bantuan extends StatelessWidget {
     );
   }
 
-  Future<void> _shareLocation() async {
-  bool _serviceEnabled;
-  PermissionStatus _permissionGranted;
-  LocationData _locationData;
-
-  _serviceEnabled = await _location.serviceEnabled();
-  if (!_serviceEnabled) {
-    _serviceEnabled = await _location.requestService();
-    if (!_serviceEnabled) {
-      return;
-    }
-  }
-
-    _permissionGranted = await _location.hasPermission();
-  if (_permissionGranted == PermissionStatus.denied) {
-    _permissionGranted = await _location.requestPermission();
-    if (_permissionGranted != PermissionStatus.granted) {
-      return;
-    }
-  }
-   _locationData = await _location.getLocation();
-
-  // Update value of _inputShareLocation with current location
-  _inputShareLocation.text = "${_locationData.latitude},${_locationData.longitude}";
-
-  // Buat URL untuk berbagi lokasi
-  String googleMapsUrl =
-      'https://www.google.com/maps/search/?api=1&query=${_locationData.latitude},${_locationData.longitude}';
-
-  // Buka aplikasi peta yang terinstal untuk berbagi lokasi
-  if (await canLaunch(googleMapsUrl)) {
-    await launch(googleMapsUrl);
-  } else {
-    throw 'Could not launch $googleMapsUrl';
-  }
-}
-
-Widget _fieldShareLocation({
-  required String hintText,
-  required String label,
-  TextEditingController? controller,
-  VoidCallback? onTap,
-}) {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Text(
-        label,
-        style: TextStyle(
-          color: Colors.grey,
-          fontSize: 12,
-        ),
-      ),
-      SizedBox(height: 5),
-      Row(
-        children: [
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10.0),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 1,
-                    blurRadius: 7,
-                    offset: Offset(0, 3),
-                  ),
-                ],
-              ),
-              child: TextFormField(
-                controller: controller,
-                readOnly: true,
-                maxLines: null,
-                style: TextStyle(
-                  overflow: TextOverflow.ellipsis,
-                ),
-                onTap: onTap, // Call onTap when tapped
-                decoration: InputDecoration(
-                  hintText: hintText,
-                  border: InputBorder.none,
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-                  suffixIcon: InkWell(
-                    onTap: onTap, // Call onTap when tapped
-                    child: Container(
-                      width: 40,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      child: Icon(
-                        Icons.location_on,
-                        size: 24,
-                        color: const Color.fromARGB(255, 65, 64, 64),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    ],
-  );
-}
-
-  Widget _fieldDokumentasi({
-    required String hintText,
-    required String label,
-    TextEditingController? controller,
-    VoidCallback? onTap,
-    VoidCallback? onButtonTap,
-  }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: TextStyle(
-            color: Colors.grey,
-            fontSize: 12,
-          ),
-        ),
-        SizedBox(height: 5),
-        Row(
-          children: [
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10.0),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 1,
-                      blurRadius: 7,
-                      offset: Offset(0, 3),
-                    ),
-                  ],
-                ),
-                child: TextFormField(
-                  controller: controller,
-                  onTap: onTap,
-                  readOnly: true,
-                  maxLines: 1,
-                  style: TextStyle(
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  decoration: InputDecoration(
-                    hintText: hintText,
-                    border: InputBorder.none,
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-                    prefixIcon: Icon(//icon field
-                      Icons.add,
-                      color: Colors.blue,
-                    ),
-                    suffixIcon: onButtonTap != null
-                        ? InkWell(
-                            onTap: onButtonTap,
-                            child: Container(
-                              width: 40,
-                              height: 40,
-                              decoration: BoxDecoration(
-                                color: Colors.blue,
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              child: Icon(
-                                Icons.add,
-                                size: 24,
-                                color: Colors.white,
-                              ),
-                            ),
-                          )
-                        : null,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Future<void> _getImage() async {
-    final ImagePicker _picker =
-        ImagePicker(); // Instansiasi ImagePicker di sini
-    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
-    if (image != null) {
-      _inputGambar.text = image.path;
-    }
-  }
-
- 
-
-  Widget _fieldNomorKK({
-    required String hintText,
-    required String label,
-    TextEditingController? controller,
-    VoidCallback? onTap,
-    VoidCallback? onButtonTap,
-  }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: TextStyle(
-            color: Colors.grey,
-            fontSize: 12,
-          ),
-        ),
-        SizedBox(height: 5),
-        Row(
-          children: [
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10.0),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 1,
-                      blurRadius: 7,
-                      offset: Offset(0, 3),
-                    ),
-                  ],
-                ),
-                child: TextFormField(
-                  controller: controller,
-                  onTap: onTap,
-                  maxLines: null,
-                  style: TextStyle(
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  decoration: InputDecoration(
-                    hintText: hintText,
-                    border: InputBorder.none,
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-                    suffixIcon: onButtonTap != null
-                        ? InkWell(
-                            onTap: onButtonTap,
-                            child: Container(
-                              width: 40,
-                              height: 40,
-                              decoration: BoxDecoration(
-                                color: Colors.blue,
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              child: Icon(
-                                Icons.add,
-                                size: 24,
-                                color: Colors.white,
-                              ),
-                            ),
-                          )
-                        : null,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-
   Widget _buildThreeFieldsInRow({
     required String hintText1,
     required String hintText2,
@@ -509,7 +239,8 @@ Widget _fieldShareLocation({
     VoidCallback? onTap1,
     VoidCallback? onTap2,
     VoidCallback? onTap3,
-    VoidCallback? onButtonTap,
+    VoidCallback?
+        onButtonTap, // Tambahkan parameter untuk menangani tombol input
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -540,7 +271,7 @@ Widget _fieldShareLocation({
                         ),
                       ],
                     ),
-                    child: TextField(
+                    child: TextFormField(
                       controller: controller1,
                       onTap: onTap1,
                       readOnly: true,
@@ -622,7 +353,7 @@ Widget _fieldShareLocation({
                         ),
                       ],
                     ),
-                    child: TextField(
+                    child: TextFormField(
                       controller: controller3,
                       onTap: onTap3,
                       readOnly: true,
@@ -639,7 +370,111 @@ Widget _fieldShareLocation({
             ),
           ],
         ),
+        SizedBox(height: 15),
+        // Menambahkan tombol di bawah field
+        InkWell(
+          onTap: onButtonTap,
+          child: Container(
+            width: double.infinity,
+            padding: EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: Colors.blue,
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 1,
+                      blurRadius: 7,
+                      offset: Offset(0, 3),
+                    ),
+                  ],
+            ),
+            child: Center(
+              child: Text(
+                'Input',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16, // Sesuaikan ukuran font sesuai kebutuhan
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _fieldNomorKK({
+    required String hintText,
+    required String label,
+    TextEditingController? controller,
+    VoidCallback? onTap,
+    VoidCallback? onButtonTap,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: TextStyle(
+            color: Colors.grey,
+            fontSize: 12,
+          ),
+        ),
         SizedBox(height: 5),
+        Row(
+          children: [
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10.0),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 1,
+                      blurRadius: 7,
+                      offset: Offset(0, 3),
+                    ),
+                  ],
+                ),
+                child: TextFormField(
+                  controller: controller,
+                  onTap: onTap,
+                  maxLines: null,
+                  style: TextStyle(
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  decoration: InputDecoration(
+                    hintText: hintText,
+                    border: InputBorder.none,
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                    suffixIcon: onButtonTap != null
+                        ? InkWell(
+                            onTap: onButtonTap,
+                            child: Container(
+                              width: 40,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                color: Colors.blue,
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: Icon(
+                                Icons.add,
+                                size: 24,
+                                color: Colors.white,
+                              ),
+                            ),
+                          )
+                        : null,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ],
     );
   }
@@ -713,38 +548,26 @@ Widget _fieldShareLocation({
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 22),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  RichText(
-                    text: TextSpan(
-                      text: "Hallo, ",
-                      style: GoogleFonts.manrope(
-                        fontSize: 14,
-                        color: Color.fromARGB(255, 255, 255, 255),
-                        height: 150 / 100,
-                      ),
-                      children: const [
-                        TextSpan(
-                          text: "Silahkan  ",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w800,
-                          ),
-                        ),
-                        TextSpan(
-                          text:
-                              "\n Melengkapi Kolom \n Yang Ada Di \n Bawah Ini...",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w800,
-                          ),
-                        ),
-                      ],
+                  Text(
+                    'Fitur Barang',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 5,
+                  ),
+                  Text(
+                    'Kelola barang secara mudah\n dan aman.',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                    ),
                   ),
                 ],
               ),
@@ -755,109 +578,276 @@ Widget _fieldShareLocation({
     );
   }
 
-  Padding _greetings() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            'Bantuan Logistik ',
-            style: GoogleFonts.manrope(
-              fontSize: 24,
-              fontWeight: FontWeight.w800,
-              color: const Color(0xFF3F3E3F),
-            ),
+  Widget _fieldDokumentasi({
+    required String hintText,
+    required String label,
+    TextEditingController? controller,
+    VoidCallback? onTap,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: TextStyle(
+            color: Colors.grey,
+            fontSize: 12,
           ),
-        ],
-      ),
+        ),
+        SizedBox(height: 5),
+        Row(
+          children: [
+            Expanded(
+              child: InkWell(
+                onTap: onTap,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10.0),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 1,
+                        blurRadius: 7,
+                        offset: Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: TextFormField(
+                    controller: controller,
+                    readOnly: true,
+                    decoration: InputDecoration(
+                      hintText: hintText,
+                      border: InputBorder.none,
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                      suffixIcon: Icon(
+                        Icons.camera_alt,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 
-  Widget _customButton(
-      {required String text,
-      required VoidCallback onPressed,
-      required Color color}) {
+  Widget _fieldShareLocation({
+    required String hintText,
+    required String label,
+    TextEditingController? controller,
+    VoidCallback? onTap,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: TextStyle(
+            color: Colors.grey,
+            fontSize: 12,
+          ),
+        ),
+        SizedBox(height: 5),
+        Row(
+          children: [
+            Expanded(
+              child: InkWell(
+                onTap: onTap,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10.0),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 1,
+                        blurRadius: 7,
+                        offset: Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: TextFormField(
+                    controller: controller,
+                    readOnly: true,
+                    decoration: InputDecoration(
+                      hintText: hintText,
+                      border: InputBorder.none,
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                      suffixIcon: Icon(
+                        Icons.location_on,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _customButton({
+    required String text,
+    required VoidCallback onPressed,
+    required Color color,
+  }) {
     return ElevatedButton(
       onPressed: onPressed,
       child: Text(
         text,
         style: TextStyle(
+          color: Colors.white,
           fontSize: 16,
-          fontWeight: FontWeight.bold,
         ),
       ),
-      style: ElevatedButton.styleFrom(
-        backgroundColor: color,
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all(color),
+        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
         ),
       ),
     );
+  }
+
+  Future<void> _showDaftarBarang(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Pilih Barang"),
+          content: SingleChildScrollView(
+            child: Column(
+              children: daftarBarang
+                  .map((barang) => ListTile(
+                        title: Text(barang),
+                        onTap: () {
+                          Navigator.pop(context, barang);
+                        },
+                      ))
+                  .toList(),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _getImage() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      _inputGambar.text = pickedFile.path;
+    }
   }
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
+      firstDate: DateTime(2015, 8),
       lastDate: DateTime(2101),
     );
-    if (picked != null) {
-      selectedDate = picked;
-      // Update the value of the TextFormField using the controller
-      _expiredController.text = "${picked.day}-${picked.month}-${picked.year}";
-    }
-  }
-
-  void _showDaftarBarang(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return Container(
-          child: ListView.builder(
-            itemCount: daftarBarang.length,
-            itemBuilder: (BuildContext context, int index) {
-              return ListTile(
-                title: Text(daftarBarang[index]),
-                onTap: () {
-                  _namaBarangController.text = daftarBarang[index];
-                  Navigator.pop(context);
-                },
-              );
-            },
-          ),
-        );
-      },
-    );
+    if (picked != null && picked != selectedDate) selectedDate = picked;
+    _expiredController.text = selectedDate.toString().substring(0, 10);
   }
 
   void ShowsatuanOptions(BuildContext context) {
     showModalBottomSheet(
       context: context,
-      builder: (BuildContext context) {
+      builder: (BuildContext builder) {
         return Container(
-          child: ListView.builder(
-            itemCount: satuanOptions.length,
-            itemBuilder: (BuildContext context, int index) {
-              return ListTile(
-                title: Text(satuanOptions[index]),
-                onTap: () {
-                  _satuanController.text = satuanOptions[index];
-                  Navigator.pop(context);
-                },
-              );
-            },
+          height: MediaQuery.of(context).size.height / 3,
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ListTile(
+                  leading: new Icon(Icons.arrow_back_ios),
+                  title: new Text(
+                    'Pilih Satuan',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: satuanOptions.length,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      title: Text(satuanOptions[index]),
+                      onTap: () {
+                        _satuanController.text = satuanOptions[index];
+                        Navigator.pop(context);
+                      },
+                    );
+                  },
+                ),
+              ),
+            ],
           ),
         );
       },
     );
   }
+
+  void _shareLocation() async {
+    var locationData = await _location.getLocation();
+    var lat = locationData.latitude;
+    var long = locationData.longitude;
+    var url = "https://www.google.com/maps/search/?api=1&query=$lat,$long";
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+}
+
+Widget _greetings() {
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 20),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Hai, User!',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        SizedBox(height: 5),
+        Text(
+          'Ayo kelola barang kamu!',
+          style: TextStyle(
+            fontSize: 16,
+          ),
+        ),
+      ],
+    ),
+  );
 }
 
 void main() {
   runApp(MaterialApp(
+    debugShowCheckedModeBanner: false,
+    theme: ThemeData(
+      textTheme: GoogleFonts.poppinsTextTheme(),
+    ),
     home: bantuan(),
   ));
 }
